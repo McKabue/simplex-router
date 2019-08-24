@@ -1,34 +1,12 @@
-type TemplateParameterType = { [key: string]: string };
+import {
+    CompileOptionsType,
+    TemplateParameterType,
+    CompiledRouteType,
+    CompilerType,
+    TemplateMatchResponseType
+} from './types';
 
-/**
- * If the template from @member CompiledRouteType.template 
- * is an object, this type will be extended with all the
- * members of that object.
- */
-type TemplateMatchResponseType = {
-    params: TemplateParameterType,
-    /**
-     * This is for routes that are passed as strings.
-     */
-    template?: string;
-} |
-    /**
-     * @type TemplateMatchResponseType can be null
-     */
-    any;
-
-type CompiledRouteType = {
-    /**
-     * Template could be string or object
-     */
-    template: {} | string;
-    compiledTemplate: RegExp;
-    templateParameterNames: string[];
-};
-
-type CompilerType = { from: RegExp; to: string; }
-
-type CompileOptionsType = { compilers: CompilerType[]; routeKey?: Function; };
+import aspNetCoreCompilers from './compilers/asp-net-core';
 
 
 
@@ -44,22 +22,7 @@ const quoteRegExp = (value: string): string => {
     return value.replace(/[\\\[\]\^$*+?.()|{}]/g, "\\$&");
 };
 const defaultCompileOptions: CompileOptionsType = {
-    compilers: [{
-        from: /\{[\*](\w+)[^?]}/g, // catches {*param} https://regex101.com/r/gT8wK5/749 , https://regex101.com/r/gVZG3f/2
-        to: '(.+)'
-    },
-    {
-        from: /\{[\*](\w+)\?}/g, // catches {*param?} https://regex101.com/r/8rtbCm/1
-        to: '(.*)'
-    },
-    {
-        from: /\{(\w+[^?])}/g, // catches {param} https://regex101.com/r/gVZG3f/5
-        to: '([^/]+)'
-    },
-    {
-        from: /\{(\w+)\?}/g, // catches {param?} https://regex101.com/r/gVZG3f/5
-        to: '([^/]*)'
-    }]
+    compilers: aspNetCoreCompilers
 };
 const getSearchPathParameters = (searchParamsPath: string): TemplateParameterType => {
     const searchParamsObject: TemplateParameterType = {};

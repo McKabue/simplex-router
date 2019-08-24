@@ -6,7 +6,7 @@
     "gulp-typescript": "^5.0.1",
     "typescript": "^3.7.0-dev.20190824"
   },
-  "description": "Simplex Router is a Javascript agnostic router",
+  "description": "This is a simple platform and framework agonistic javascript router. It only parses the routes and you decide how you want to deal with the matched route",
   "main": "dest/simplex-router.js",
   "dependencies": {},
   "scripts": {
@@ -19,7 +19,8 @@
   "keywords": [
     "router",
     "javascript",
-    "simplex-router"
+    "simplex-router",
+    "platform and framework agonistic"
   ],
   "author": "Kabue Charles <me@mckabue.com> (mckabue)",
   "license": "MIT",

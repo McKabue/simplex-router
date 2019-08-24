@@ -2,6 +2,7 @@
     "compilerOptions": {
         "outDir": "./dist/",
         "noImplicitAny": true,
+        "removeComments": true,
         "sourceMap": true,
         "module": "es6",
         "target": "es6",
@@ -11,5 +12,6 @@
     },
     "files": [
         "./src/simplex-router.ts"
-    ]
+    ],
+    "include": ["./src/compilers/**/*"]
 }

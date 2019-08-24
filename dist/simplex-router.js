@@ -1,30 +1,9 @@
-/**
- * Quotes regular expression in a string.
- *
- * @param value ~ value whose regular expression is to be quoted
- *
- * @returns string
- */
+import aspNetCoreCompilers from './compilers/asp-net-core';
 const quoteRegExp = (value) => {
     return value.replace(/[\\\[\]\^$*+?.()|{}]/g, "\\$&");
 };
 const defaultCompileOptions = {
-    compilers: [{
-            from: /\{[\*](\w+)[^?]}/g,
-            to: '(.+)'
-        },
-        {
-            from: /\{[\*](\w+)\?}/g,
-            to: '(.*)'
-        },
-        {
-            from: /\{(\w+[^?])}/g,
-            to: '([^/]+)'
-        },
-        {
-            from: /\{(\w+)\?}/g,
-            to: '([^/]*)'
-        }]
+    compilers: aspNetCoreCompilers
 };
 const getSearchPathParameters = (searchParamsPath) => {
     const searchParamsObject = {};
@@ -53,11 +32,6 @@ class SimplexRouter {
             for (let compilerIndex = 0; compilerIndex < options.compilers.length; compilerIndex++) {
                 const compiler = options.compilers[compilerIndex];
                 let compilerMatch;
-                /**
-                 * Using if or const doesn't work here.
-                 *
-                 * @tutorial https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec#Finding_successive_matches
-                 */
                 while ((compilerMatch = (compiler.from.exec(templatePath)))) {
                     templateParameters.push({
                         first: compilerMatch.index,
@@ -68,34 +42,27 @@ class SimplexRouter {
                 }
             }
             templateParameters.sort((a, b) => a.first - b.first);
-            let newRouteTemplate = ''; // parameters replaced with regular options
+            let newRouteTemplate = '';
             let indexOfLastParameterized = 0;
             let lastUnParameterizedChunk = '';
             for (let templateCharacterIndex = 0; templateCharacterIndex < templatePath.length; templateCharacterIndex++) {
                 const templateParameterStart = templateParameters.find(i => i.first === templateCharacterIndex);
                 if (templateParameterStart) {
-                    // this could be optimized to use '_last_un_parameterized_chunk'
-                    // because it should have the last chunk, that is why it is being cleared
-                    // in this 'if block'.
                     const previousChunk = templatePath.slice(indexOfLastParameterized, templateParameterStart.first);
                     const previousChunkSplit = previousChunk.split('?');
-                    // break if there is a question mark meaning beginning of query string
-                    // it happens to be very unlikely this will ever catch a query string that is not
-                    // in a parameter because it will be caught in the 'else' statement below.
-                    // so, this just takes unnecessary memory and computation time that could be saved,BUR TESTING NEEDS TO BE DONE.
                     if (previousChunkSplit.length > 1) {
-                        lastUnParameterizedChunk = previousChunkSplit[0]; //add the section before the question mark
+                        lastUnParameterizedChunk = previousChunkSplit[0];
                         break;
                     }
-                    newRouteTemplate += quoteRegExp(previousChunk); // add previous chunk
-                    newRouteTemplate += templateParameterStart.compileRegex.to; // add current parameter regex
+                    newRouteTemplate += quoteRegExp(previousChunk);
+                    newRouteTemplate += templateParameterStart.compileRegex.to;
                     indexOfLastParameterized = templateParameterStart.last;
-                    templateCharacterIndex = templateParameterStart.last - 1; //we subtract one since we want the nest round of this loop to be the last index
-                    lastUnParameterizedChunk = ''; //last chunk is cleared because because parameter has been encountered
+                    templateCharacterIndex = templateParameterStart.last - 1;
+                    lastUnParameterizedChunk = '';
                 }
                 else {
                     const templateCharacter = templatePath[templateCharacterIndex];
-                    if (templateCharacter === '?') { // if character is question mark, its a start of query string
+                    if (templateCharacter === '?') {
                         break;
                     }
                     else {
@@ -103,11 +70,6 @@ class SimplexRouter {
                     }
                 }
             }
-            //if the last parameterized index is smaller than route length,
-            //then there are some characters are not in the parameters 
-            //and need to be taken care of so they dont spoil the regex as
-            // some of them could have special meaning. eg '?'
-            //check this one as it assumes these characters are always the last ones.
             if (indexOfLastParameterized < templatePath.length) {
                 newRouteTemplate += quoteRegExp(lastUnParameterizedChunk);
             }
@@ -126,7 +88,6 @@ class SimplexRouter {
         for (let compiledRouteIndex = 0; compiledRouteIndex < this.compiledRouteTemplates.length; compiledRouteIndex++) {
             const compiledRoute = this.compiledRouteTemplates[compiledRouteIndex];
             const pathForMatchVariants = [pathWithoutSearchParams];
-            // below conditions could probably be done by regex.
             if (pathWithoutSearchParams.endsWith('/')) {
                 pathForMatchVariants.push(pathWithoutSearchParams.substring(0, pathWithoutSearchParams.length - 1));
             }
