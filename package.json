@@ -1,0 +1,10 @@
+{
+  "version": "0.0.1",
+  "name": "simplex-router",
+  "private": true,
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-typescript": "^5.0.1",
+    "typescript": "^3.7.0-dev.20190824"
+  }
+}
