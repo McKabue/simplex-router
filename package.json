@@ -1,10 +1,30 @@
 {
   "version": "0.0.1",
   "name": "simplex-router",
-  "private": true,
   "devDependencies": {
     "gulp": "^4.0.0",
     "gulp-typescript": "^5.0.1",
     "typescript": "^3.7.0-dev.20190824"
-  }
+  },
+  "description": "Simplex Router is a Javascript agnostic router",
+  "main": "dest/simplex-router.js",
+  "dependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/McKabue/simplex-router.git"
+  },
+  "keywords": [
+    "router",
+    "javascript",
+    "simplex-router"
+  ],
+  "author": "Kabue Charles <me@mckabue.com> (mckabue)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/McKabue/simplex-router/issues"
+  },
+  "homepage": "https://github.com/McKabue/simplex-router#readme"
 }
