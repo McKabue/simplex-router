@@ -140,9 +140,17 @@ class SimplexRouter implements ISimplexRouter {
             });
         }
     }
-    match(pathToMatchRoutes: string, returnFirstMatchedRoute?: false): TemplateMatchResponseType[] | TemplateMatchResponseType {
+    match(pathToMatchTemplates: string, onlyFirstTemplate?: false): TemplateMatchResponseType[] | TemplateMatchResponseType {
+        if (!pathToMatchTemplates) {
+            if (onlyFirstTemplate) {
+                return undefined as TemplateMatchResponseType;
+            }
+
+            return [] as TemplateMatchResponseType[];
+        }
+
         const templateMatchResponses: TemplateMatchResponseType[] = [];
-        const splitPathFromSearchParams: string[] = pathToMatchRoutes.split('?');
+        const splitPathFromSearchParams: string[] = pathToMatchTemplates.split('?');
         const pathWithoutSearchParams: string = splitPathFromSearchParams[0];
         const searchParams = getSearchPathParameters(splitPathFromSearchParams[1]);
 
@@ -165,8 +173,8 @@ class SimplexRouter implements ISimplexRouter {
             }
 
             for (let pathForMatchVariantsIndex = 0; pathForMatchVariantsIndex < pathForMatchVariants.length; pathForMatchVariantsIndex++) {
-                let pathForMatchVariant = pathForMatchVariants[pathForMatchVariantsIndex],
-                    pathForMatchVariantMatch = (compiledRoute.compiledTemplate).exec(pathForMatchVariant);
+                const pathForMatchVariant = pathForMatchVariants[pathForMatchVariantsIndex];
+                const pathForMatchVariantMatch = (compiledRoute.compiledTemplate).exec(pathForMatchVariant);
 
                 if (pathForMatchVariantMatch) {
                     let templateMatchResponse: TemplateMatchResponseType = { params: {} };
@@ -180,11 +188,12 @@ class SimplexRouter implements ISimplexRouter {
 
                     if (typeof compiledRoute.template === 'string') {
                         templateMatchResponse.template = compiledRoute.template;
+                        templateMatchResponse.params = params;
                     } else {
-                        templateMatchResponse = { ...compiledRoute.template, ...templateMatchResponse };
+                        templateMatchResponse = { ...compiledRoute.template, ...{ params: params } };
                     }
 
-                    if (returnFirstMatchedRoute) {
+                    if (onlyFirstTemplate) {
                         return templateMatchResponse;
                     }
 
@@ -193,9 +202,8 @@ class SimplexRouter implements ISimplexRouter {
             }
         }
 
-        if (returnFirstMatchedRoute) {
-            var d: TemplateMatchResponseType = undefined;
-            return d;
+        if (onlyFirstTemplate) {
+            return undefined;
         }
 
         return templateMatchResponses;
