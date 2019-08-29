@@ -1,3 +1,5 @@
+import { type } from "os";
+
 export type TemplateParameterType = { [key: string]: string };
 
 /**
@@ -26,6 +28,13 @@ export type CompiledRouteType = {
     templateParameterNames: string[];
 };
 
-export type RuleType = { test: RegExp; use: string; }
+/**
+ * @tutorial https://stackoverflow.com/a/51448473/3563013
+ * @tutorial https://github.com/Microsoft/TypeScript/issues/6579
+ */
+export type RuleType = {
+    test: RegExp;
+    use: string;
+}
 
 export type CompileOptionsType = { rules: RuleType[]; templateKey?: Function; };

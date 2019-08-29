@@ -2,7 +2,8 @@
     "compilerOptions": {
         "noImplicitAny": true,
         "sourceMap": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "target": "es6"
     },
     "files": [
         "./src/simplex-router.ts"
