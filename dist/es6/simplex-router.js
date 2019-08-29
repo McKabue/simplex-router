@@ -1,4 +1,4 @@
-import aspNetCoreCompilers from './compilers/asp-net-core';
+import aspNetCoreCompilers from './rules/asp-net-core';
 /**
  * Quotes regular expression in a string.
  *
@@ -10,7 +10,7 @@ const quoteRegExp = (value) => {
     return value.replace(/[\\\[\]\^$*+?.()|{}]/g, "\\$&");
 };
 const defaultCompileOptions = {
-    compilers: aspNetCoreCompilers
+    rules: aspNetCoreCompilers
 };
 const getSearchPathParameters = (searchParamsPath) => {
     const searchParamsObject = {};
@@ -34,17 +34,17 @@ class SimplexRouter {
         const compiledRouteTemplates = this.compiledRouteTemplates = [];
         for (let templateIndex = 0; templateIndex < templates.length; templateIndex++) {
             const template = templates[templateIndex];
-            const templatePath = options.routeKey ? options.routeKey(template) : template;
+            const templatePath = options.templateKey ? options.templateKey(template) : template;
             const templateParameters = [];
-            for (let compilerIndex = 0; compilerIndex < options.compilers.length; compilerIndex++) {
-                const compiler = options.compilers[compilerIndex];
+            for (let compilerIndex = 0; compilerIndex < options.rules.length; compilerIndex++) {
+                const compiler = options.rules[compilerIndex];
                 let compilerMatch;
                 /**
                  * Using if or const doesn't work here.
                  *
                  * @tutorial https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec#Finding_successive_matches
                  */
-                while ((compilerMatch = (compiler.from.exec(templatePath)))) {
+                while ((compilerMatch = (compiler.test.exec(templatePath)))) {
                     templateParameters.push({
                         first: compilerMatch.index,
                         last: compilerMatch.index + compilerMatch[0].length,
@@ -74,7 +74,7 @@ class SimplexRouter {
                         break;
                     }
                     newRouteTemplate += quoteRegExp(previousChunk); // add previous chunk
-                    newRouteTemplate += templateParameterStart.compileRegex.to; // add current parameter regex
+                    newRouteTemplate += templateParameterStart.compileRegex.use; // add current parameter regex
                     indexOfLastParameterized = templateParameterStart.last;
                     templateCharacterIndex = templateParameterStart.last - 1; //we subtract one since we want the nest round of this loop to be the last index
                     lastUnParameterizedChunk = ''; //last chunk is cleared because because parameter has been encountered

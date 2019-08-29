@@ -26,6 +26,6 @@ export type CompiledRouteType = {
     templateParameterNames: string[];
 };
 
-export type CompilerType = { from: RegExp; to: string; }
+export type RuleType = { test: RegExp; use: string; }
 
-export type CompileOptionsType = { compilers: CompilerType[]; routeKey?: Function; };
+export type CompileOptionsType = { rules: RuleType[]; templateKey?: Function; };

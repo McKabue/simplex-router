@@ -1,4 +1,4 @@
-import aspNetCoreCompilers from './compilers/asp-net-core';
+import aspNetCoreCompilers from './rules/asp-net-core';
 /**
  * Quotes regular expression in a string.
  *
@@ -12,7 +12,7 @@ var quoteRegExp = function quoteRegExp(value) {
 };
 
 var defaultCompileOptions = {
-  compilers: aspNetCoreCompilers
+  rules: aspNetCoreCompilers
 };
 
 var getSearchPathParameters = function getSearchPathParameters(searchParamsPath) {
@@ -44,11 +44,11 @@ function () {
 
     for (var templateIndex = 0; templateIndex < templates.length; templateIndex++) {
       var template = templates[templateIndex];
-      var templatePath = options.routeKey ? options.routeKey(template) : template;
+      var templatePath = options.templateKey ? options.templateKey(template) : template;
       var templateParameters = [];
 
-      for (var compilerIndex = 0; compilerIndex < options.compilers.length; compilerIndex++) {
-        var compiler = options.compilers[compilerIndex];
+      for (var compilerIndex = 0; compilerIndex < options.rules.length; compilerIndex++) {
+        var compiler = options.rules[compilerIndex];
         var compilerMatch = void 0;
         /**
          * Using if or const doesn't work here.
@@ -56,7 +56,7 @@ function () {
          * @tutorial https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec#Finding_successive_matches
          */
 
-        while (compilerMatch = compiler.from.exec(templatePath)) {
+        while (compilerMatch = compiler.test.exec(templatePath)) {
           templateParameters.push({
             first: compilerMatch.index,
             last: compilerMatch.index + compilerMatch[0].length,
@@ -98,7 +98,7 @@ function () {
 
           newRouteTemplate += quoteRegExp(previousChunk); // add previous chunk
 
-          newRouteTemplate += templateParameterStart.compileRegex.to; // add current parameter regex
+          newRouteTemplate += templateParameterStart.compileRegex.use; // add current parameter regex
 
           indexOfLastParameterized = templateParameterStart.last;
           _templateCharacterIndex = templateParameterStart.last - 1; //we subtract one since we want the nest round of this loop to be the last index

@@ -2,11 +2,11 @@ import {
     CompileOptionsType,
     TemplateParameterType,
     CompiledRouteType,
-    CompilerType,
+    RuleType,
     TemplateMatchResponseType
 } from './types';
 
-import aspNetCoreCompilers from './compilers/asp-net-core';
+import aspNetCoreCompilers from './rules/asp-net-core';
 
 
 
@@ -22,7 +22,7 @@ const quoteRegExp = (value: string): string => {
     return value.replace(/[\\\[\]\^$*+?.()|{}]/g, "\\$&");
 };
 const defaultCompileOptions: CompileOptionsType = {
-    compilers: aspNetCoreCompilers
+    rules: aspNetCoreCompilers
 };
 const getSearchPathParameters = (searchParamsPath: string): TemplateParameterType => {
     const searchParamsObject: TemplateParameterType = {};
@@ -59,24 +59,24 @@ class SimplexRouter implements ISimplexRouter {
 
         for (let templateIndex = 0; templateIndex < templates.length; templateIndex++) {
             const template: any = templates[templateIndex];
-            const templatePath: string = options.routeKey ? options.routeKey(template) : template;
+            const templatePath: string = options.templateKey ? options.templateKey(template) : template;
 
             const templateParameters: {
                 first: number,
                 last: number,
                 key: string,
-                compileRegex: CompilerType
+                compileRegex: RuleType
             }[] = [];
 
-            for (let compilerIndex = 0; compilerIndex < options.compilers.length; compilerIndex++) {
-                const compiler: CompilerType = options.compilers[compilerIndex];
+            for (let compilerIndex = 0; compilerIndex < options.rules.length; compilerIndex++) {
+                const compiler: RuleType = options.rules[compilerIndex];
                 let compilerMatch: RegExpExecArray | any;
                 /**
                  * Using if or const doesn't work here.
                  * 
                  * @tutorial https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec#Finding_successive_matches
                  */
-                while ((compilerMatch = (compiler.from.exec(templatePath)))) {
+                while ((compilerMatch = (compiler.test.exec(templatePath)))) {
                     templateParameters.push({
                         first: compilerMatch.index,
                         last: compilerMatch.index + compilerMatch[0].length,
@@ -109,7 +109,7 @@ class SimplexRouter implements ISimplexRouter {
                         break;
                     }
                     newRouteTemplate += quoteRegExp(previousChunk); // add previous chunk
-                    newRouteTemplate += templateParameterStart.compileRegex.to; // add current parameter regex
+                    newRouteTemplate += templateParameterStart.compileRegex.use; // add current parameter regex
                     indexOfLastParameterized = templateParameterStart.last;
                     templateCharacterIndex = templateParameterStart.last - 1; //we subtract one since we want the nest round of this loop to be the last index
                     lastUnParameterizedChunk = ''; //last chunk is cleared because because parameter has been encountered
