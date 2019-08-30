@@ -4,3 +4,5 @@ It only parses the routes and you decide how you want to deal with the matched r
 This router is used in [Library.co.ke](https://library.co.ke/) and is available for anyone to use.
 
 [NPM](https://www.npmjs.com/package/simplex-router)
+
+To test: `npm run test`

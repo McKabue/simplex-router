@@ -33,8 +33,9 @@ export type CompiledRouteType = {
  * @tutorial https://github.com/Microsoft/TypeScript/issues/6579
  */
 export type RuleType = {
-    test: RegExp;
+    match: RegExp;
     use: string;
+    test: string;
 }
 
 export type CompileOptionsType = { rules: RuleType[]; templateKey?: Function; };

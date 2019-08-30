@@ -4,17 +4,22 @@
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
+    "@babel/preset-typescript": "^7.3.3",
+    "@babel/register": "^7.5.5",
+    "babel-plugin-add-module-exports": "^1.0.2",
     "del": "5.1.0",
     "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-typescript": "^5.0.1",
-    "typescript": "3.6.2"
+    "jest": "^24.9.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "3.6.2",
+    "uuid": "3.3.3"
   },
   "description": "This is a simple platform and framework agonistic javascript router. It only parses the routes and you decide how you want to deal with the matched route",
   "main": "dest/simplex-router.js",
-  "dependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",

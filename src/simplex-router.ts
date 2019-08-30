@@ -76,7 +76,7 @@ class SimplexRouter implements ISimplexRouter {
                  * 
                  * @tutorial https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec#Finding_successive_matches
                  */
-                while ((compilerMatch = (compiler.test.exec(templatePath)))) {
+                while ((compilerMatch = (compiler.match.exec(templatePath)))) {
                     templateParameters.push({
                         first: compilerMatch.index,
                         last: compilerMatch.index + compilerMatch[0].length,
