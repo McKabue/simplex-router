@@ -5,17 +5,13 @@ const babel = require('gulp-babel');
 
 gulp.task('es5', function () {
     const tsProject = ts.createProject('tsconfig.json', {
-        "module": "es6",
-        "target": "es6"
+        "module": "es6"
     });
     return tsProject.src()
         .pipe(tsProject()).js
         .pipe(babel({
             presets: [
-                ["@babel/preset-env", {
-                    "loose": true,
-                    "modules": false
-                }]
+                "@babel/preset-env"
             ]
         }))
         .pipe(gulp.dest('./dist/es5/'));
@@ -23,8 +19,7 @@ gulp.task('es5', function () {
 
 gulp.task('es6', function () {
     const tsProject = ts.createProject('tsconfig.json', {
-        "module": "es6",
-        "target": "es6"
+        "module": "es6"
     });
     return tsProject.src()
         .pipe(tsProject())

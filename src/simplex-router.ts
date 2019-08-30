@@ -59,7 +59,15 @@ class SimplexRouter implements ISimplexRouter {
 
         for (let templateIndex = 0; templateIndex < templates.length; templateIndex++) {
             const template: any = templates[templateIndex];
-            const templatePath: string = options.templateKey ? options.templateKey(template) : template;
+            const templatePath: string =
+                options.templateKey ?
+                    options.templateKey(template) :
+                    typeof template === 'string' ?
+                        template : null;
+
+            if (!templatePath) {
+                throw new Error(`No Template Path`);
+            }
 
             const templateParameters: {
                 first: number,

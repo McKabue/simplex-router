@@ -1,7 +1,6 @@
 const uuid = require('uuid').v4
 const simplexRouter = require('../src/simplex-router.ts').default;
 
-
 test('matches named tag for strict value', () => {
     const tagName = 'tag';
     const tagValue = uuid();
