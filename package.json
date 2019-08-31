@@ -19,7 +19,7 @@
   "description": "This is a simple platform and framework agonistic javascript router. It only parses the routes and you decide how you want to deal with the matched route",
   "main": "dest/simplex-router.js",
   "scripts": {
-    "test": "jest  --config jest.config.js"
+    "test": "jest --config jest.config.js"
   },
   "repository": {
     "type": "git",
