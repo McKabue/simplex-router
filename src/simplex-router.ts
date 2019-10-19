@@ -24,23 +24,41 @@ const quoteRegExp = (value: string): string => {
 const defaultCompileOptions: CompileOptionsType = {
     rules: aspNetCoreCompilers
 };
-const getSearchPathParameters = (searchParamsPath: string): TemplateParameterType => {
+
+/**
+ * Remove the use of `URLSearchParams` for speed because of browser support.
+ * `URLSearchParams` [key, value] are usually automatically decoded, we want to control that.
+ * @tutorial https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams#Gotchas                    
+ * @tutorial https://stackoverflow.com/a/13419367/3563013
+ * 
+ * @param searchParamsPath 
+ * @param decode
+ */
+const getSearchPathParameters = (searchParamsPath: string, decode: boolean = true): TemplateParameterType => {
     const searchParamsObject: TemplateParameterType = {};
     if (searchParamsPath) {
-        const urlSearchParams = new URLSearchParams(searchParamsPath);
+        const pairs = (searchParamsPath[0] === '?' ? searchParamsPath.substr(1) : searchParamsPath).split('&');
+        for (let i = 0; i < pairs.length; i++) {
+            const pair = pairs[i].split('=');
+            let key = pair[0];
+            let value = pair[1] || '';
 
-        urlSearchParams.forEach((value, key) => {
-            if (!searchParamsObject[key]) {
-                searchParamsObject[key] = value;
+            key = decode ? decodeURIComponent(key) : key;
+            value = decode ? decodeURIComponent(value) : value;
+
+            if (key) {
+                if (!searchParamsObject[key]) {
+                    searchParamsObject[key] = value;
+                }
             }
-        });
+        }
     }
 
     return searchParamsObject;
 };
 
 export interface ISimplexRouter {
-    match(pathToMatchRoutes: string, returnFirstMatchedRoute?: boolean): TemplateMatchResponseType[] | TemplateMatchResponseType;
+    match(pathToMatchRoutes: string, options: { onlyFirstTemplate: false, decode: true }): TemplateMatchResponseType[] | TemplateMatchResponseType;
     ROUTER(routesToCompile: string[] | string, routesCompileOptions?: CompileOptionsType): ISimplexRouter;
 }
 
@@ -148,9 +166,9 @@ class SimplexRouter implements ISimplexRouter {
             });
         }
     }
-    match(pathToMatchTemplates: string, onlyFirstTemplate?: false): TemplateMatchResponseType[] | TemplateMatchResponseType {
+    match(pathToMatchTemplates: string, options: { onlyFirstTemplate: false, decode: true }): TemplateMatchResponseType[] | TemplateMatchResponseType {
         if (!pathToMatchTemplates) {
-            if (onlyFirstTemplate) {
+            if (options.onlyFirstTemplate) {
                 return undefined as TemplateMatchResponseType;
             }
 
@@ -160,7 +178,7 @@ class SimplexRouter implements ISimplexRouter {
         const templateMatchResponses: TemplateMatchResponseType[] = [];
         const splitPathFromSearchParams: string[] = pathToMatchTemplates.split('?');
         const pathWithoutSearchParams: string = splitPathFromSearchParams[0];
-        const searchParams = getSearchPathParameters(splitPathFromSearchParams[1]);
+        const searchParams = getSearchPathParameters(splitPathFromSearchParams[1], options.decode);
 
         for (let compiledRouteIndex = 0; compiledRouteIndex < this.compiledRouteTemplates.length; compiledRouteIndex++) {
             const compiledRoute = this.compiledRouteTemplates[compiledRouteIndex];
@@ -189,7 +207,13 @@ class SimplexRouter implements ISimplexRouter {
                     let params: TemplateParameterType = {};
 
                     for (let compiledRouteParamIndex = 0; compiledRouteParamIndex < compiledRoute.templateParameterNames.length; compiledRouteParamIndex++) {
-                        templateMatchResponse.params[compiledRoute.templateParameterNames[compiledRouteParamIndex]] = decodeURIComponent((pathForMatchVariantMatch[(compiledRouteParamIndex + 1)] || ''));
+                        let key = compiledRoute.templateParameterNames[compiledRouteParamIndex];
+                        let value = (pathForMatchVariantMatch[(compiledRouteParamIndex + 1)] || '');
+
+                        key = options.decode ? decodeURIComponent(key) : key;
+                        value = options.decode ? decodeURIComponent(value) : value;
+
+                        templateMatchResponse.params[key] = value;
                     }
 
                     params = { ...templateMatchResponse.params, ...searchParams };
@@ -201,7 +225,7 @@ class SimplexRouter implements ISimplexRouter {
                         templateMatchResponse = { ...compiledRoute.template, ...{ params: params } };
                     }
 
-                    if (onlyFirstTemplate) {
+                    if (options.onlyFirstTemplate) {
                         return templateMatchResponse;
                     }
 
@@ -210,7 +234,7 @@ class SimplexRouter implements ISimplexRouter {
             }
         }
 
-        if (onlyFirstTemplate) {
+        if (options.onlyFirstTemplate) {
             return undefined;
         }
 
