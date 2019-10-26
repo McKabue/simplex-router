@@ -58,7 +58,7 @@ const getSearchPathParameters = (searchParamsPath: string, decode: boolean = tru
 };
 
 export interface ISimplexRouter {
-    match(pathToMatchRoutes: string, options: { onlyFirstTemplate: false, decode: true }): TemplateMatchResponseType[] | TemplateMatchResponseType;
+    match(pathToMatchRoutes: string, options: { onlyFirstTemplate: boolean, decode: boolean }): TemplateMatchResponseType[] | TemplateMatchResponseType;
     ROUTER(routesToCompile: string[] | string, routesCompileOptions?: CompileOptionsType): ISimplexRouter;
 }
 
@@ -166,7 +166,9 @@ class SimplexRouter implements ISimplexRouter {
             });
         }
     }
-    match(pathToMatchTemplates: string, options: { onlyFirstTemplate: false, decode: true }): TemplateMatchResponseType[] | TemplateMatchResponseType {
+    match(pathToMatchTemplates: string, options: { onlyFirstTemplate: boolean, decode: boolean }): TemplateMatchResponseType[] | TemplateMatchResponseType {
+        options = Object.assign({ onlyFirstTemplate: false, decode: true }, options || {});
+
         if (!pathToMatchTemplates) {
             if (options.onlyFirstTemplate) {
                 return undefined as TemplateMatchResponseType;
