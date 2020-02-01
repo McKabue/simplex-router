@@ -1,6 +1,4 @@
-import {
-    RuleType
-} from '../types';
+import { RuleType } from '../types';
 
 const rules: RuleType[] = [
     {

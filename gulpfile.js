@@ -4,23 +4,18 @@ const del = require('del');
 const babel = require('gulp-babel');
 
 gulp.task('es5', function () {
-    const tsProject = ts.createProject('tsconfig.json', {
-        "module": "es6"
-    });
-    return tsProject.src()
-        .pipe(tsProject()).js
+    return gulp.src(["src/simplex-router.ts", "src/*rules/asp-net-core.ts"])
         .pipe(babel({
             presets: [
-                "@babel/preset-env"
+                "@babel/preset-env",
+                "@babel/preset-typescript"
             ]
         }))
         .pipe(gulp.dest('./dist/es5/'));
 });
 
 gulp.task('es6', function () {
-    const tsProject = ts.createProject('tsconfig.json', {
-        "module": "es6"
-    });
+    const tsProject = ts.createProject('tsconfig.json');
     return tsProject.src()
         .pipe(tsProject())
         .js.pipe(gulp.dest('./dist/es6/'));

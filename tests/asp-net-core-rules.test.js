@@ -1,4 +1,4 @@
-const aspNetCoreRules = require('../src/rules/asp-net-core.ts').default;
+const { default: aspNetCoreRules } = require('../src/rules/asp-net-core.ts');
 
 const match = (rule, index) => {
     if (!rule.test) {

@@ -4,12 +4,13 @@
         "sourceMap": true,
         "strictNullChecks": true,
         "target": "es6",
+        "module": "es6",
         "esModuleInterop": true
     },
     "files": [
         "./src/simplex-router.ts"
     ],
     "include": [
-        "./src/compilers/**/*"
+        "./src/rules/**/*"
     ]
 }
