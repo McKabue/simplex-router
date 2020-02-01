@@ -6,6 +6,7 @@ test('matches named tag for strict value', () => {
     const tagValue = uuid();
     const router = simplexRouter(`/home/{${tagName}}`);
     const match = router.match(`/home/${tagValue}`, { onlyFirstTemplate: true });
+    
     expect(match.params[tagName]).toBe(tagValue);
 });
 
@@ -14,5 +15,6 @@ test('matches named tag for any value', () => {
     const tagValue = `${uuid()} ${uuid()} ${uuid()} ${uuid()}`;
     const router = simplexRouter(`/home/{${tagName}?}`);
     const match = router.match(`/home/${tagValue}`, { onlyFirstTemplate: true });
+
     expect(match.params[tagName]).toBe(tagValue);
 });
