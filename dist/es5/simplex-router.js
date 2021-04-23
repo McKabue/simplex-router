@@ -70,9 +70,7 @@ var getSearchPathParameters = function getSearchPathParameters(searchParamsPath)
   return searchParamsObject;
 };
 
-var SimplexRouter =
-/*#__PURE__*/
-function () {
+var SimplexRouter = /*#__PURE__*/function () {
   function SimplexRouter(routeTemplates, compileOptions) {
     _classCallCheck(this, SimplexRouter);
 
@@ -80,7 +78,7 @@ function () {
       throw new Error("no 'route' or [routes]");
     }
 
-    var options = _objectSpread({}, defaultCompileOptions, {}, compileOptions);
+    var options = _objectSpread(_objectSpread({}, defaultCompileOptions), compileOptions);
 
     var templates = this.routeTemplates = Array.isArray(routeTemplates) ? routeTemplates : [routeTemplates];
     var compiledRouteTemplates = this.compiledRouteTemplates = [];
@@ -251,13 +249,13 @@ function () {
               templateMatchResponse.params[key] = value;
             }
 
-            params = _objectSpread({}, templateMatchResponse.params, {}, searchParams);
+            params = _objectSpread(_objectSpread({}, templateMatchResponse.params), searchParams);
 
             if (typeof compiledRoute.template === 'string') {
               templateMatchResponse.template = compiledRoute.template;
               templateMatchResponse.params = params;
             } else {
-              templateMatchResponse = _objectSpread({}, compiledRoute.template, {}, {
+              templateMatchResponse = _objectSpread(_objectSpread({}, compiledRoute.template), {
                 params: params
               });
             }

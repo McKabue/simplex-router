@@ -5,7 +5,8 @@
         "strictNullChecks": true,
         "target": "es6",
         "module": "es6",
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "moduleResolution": "node"
     },
     "files": [
         "./src/simplex-router.ts"
