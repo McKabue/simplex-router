@@ -71,13 +71,17 @@ class SimplexRouter implements ISimplexRouter {
         }
 
         const options: CompileOptionsType = { ...defaultCompileOptions, ...compileOptions };
+        if (!options.rules) {
+            throw new Error(`No default or passed rules.`);
+        }
+
         const templates: any[] = this.routeTemplates = Array.isArray(routeTemplates) ? routeTemplates : [routeTemplates];
 
         const compiledRouteTemplates: CompiledRouteType[] = this.compiledRouteTemplates = [];
 
         for (let templateIndex = 0; templateIndex < templates.length; templateIndex++) {
             const template: any = templates[templateIndex];
-            const templatePath: string =
+            const templatePath: string | null =
                 options.templateKey ?
                     options.templateKey(template) :
                     typeof template === 'string' ?

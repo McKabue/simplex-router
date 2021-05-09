@@ -36,4 +36,4 @@ export type RuleType = {
     test: string;
 }
 
-export type CompileOptionsType = { rules: RuleType[]; templateKey?: Function; };
+export type CompileOptionsType = { rules?: RuleType[]; templateKey?: (item: any) => string; };
