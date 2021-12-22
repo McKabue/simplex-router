@@ -1,17 +1,13 @@
 {
-    "compilerOptions": {
-        "noImplicitAny": true,
-        "sourceMap": true,
-        "strictNullChecks": true,
-        "target": "es6",
-        "module": "es6",
-        "esModuleInterop": true,
-        "moduleResolution": "node"
-    },
-    "files": [
-        "./src/simplex-router.ts"
-    ],
-    "include": [
-        "./src/rules/**/*"
-    ]
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "target": "es6",
+    "module": "es6",
+    "esModuleInterop": true,
+    "moduleResolution": "node"
+  },
+  "files": ["./src/simplex-router.ts"],
+  "include": ["./src/rules/**/*"]
 }
