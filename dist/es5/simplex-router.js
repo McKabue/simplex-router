@@ -1,30 +1,27 @@
-"use strict";
+Object.defineProperty(exports, '__esModule', { value: true });
+exports.default = _default;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true,
-});
-exports["default"] = _default;
+var _aspNetCore = _interopRequireDefault(require('./rules/asp-net-core'));
 
-var _aspNetCore = _interopRequireDefault(require("./rules/asp-net-core"));
-
-function _interopRequireDefault(obj) {
+function _interopRequireDefault (obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
-function ownKeys(object, enumerableOnly) {
+function ownKeys (object, enumerableOnly) {
   var keys = Object.keys(object);
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly)
+    if (enumerableOnly) {
       symbols = symbols.filter(function (sym) {
         return Object.getOwnPropertyDescriptor(object, sym).enumerable;
       });
+    }
     keys.push.apply(keys, symbols);
   }
   return keys;
 }
 
-function _objectSpread(target) {
+function _objectSpread (target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i] != null ? arguments[i] : {};
     if (i % 2) {
@@ -46,13 +43,13 @@ function _objectSpread(target) {
   return target;
 }
 
-function _defineProperty(obj, key, value) {
+function _defineProperty (obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
       enumerable: true,
       configurable: true,
-      writable: true,
+      writable: true
     });
   } else {
     obj[key] = value;
@@ -60,25 +57,25 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
-function _classCallCheck(instance, Constructor) {
+function _classCallCheck (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
+    throw new TypeError('Cannot call a class as a function');
   }
 }
 
-function _defineProperties(target, props) {
+function _defineProperties (target, props) {
   for (var i = 0; i < props.length; i++) {
     var descriptor = props[i];
     descriptor.enumerable = descriptor.enumerable || false;
     descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
+    if ('value' in descriptor) { descriptor.writable = true }
     Object.defineProperty(target, descriptor.key, descriptor);
   }
 }
 
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
+function _createClass (Constructor, protoProps, staticProps) {
+  if (protoProps) { _defineProperties(Constructor.prototype, protoProps) }
+  if (staticProps) { _defineProperties(Constructor, staticProps) }
   return Constructor;
 }
 
@@ -89,13 +86,11 @@ function _createClass(Constructor, protoProps, staticProps) {
  *
  * @returns string
  */
-var quoteRegExp = function quoteRegExp(value) {
-  return value.replace(/[\\\[\]\^$*+?.()|{}]/g, "\\$&");
+var quoteRegExp = function quoteRegExp (value) {
+  return value.replace(/[\\\[\]\^$*+?.()|{}]/g, '\\$&');
 };
 
-var defaultCompileOptions = {
-  rules: _aspNetCore["default"],
-};
+var defaultCompileOptions = { rules: _aspNetCore.default };
 /**
  * Remove the use of `URLSearchParams` for speed because of browser support.
  * `URLSearchParams` [key, value] are usually automatically decoded, we want to control that.
@@ -106,24 +101,24 @@ var defaultCompileOptions = {
  * @param decode
  */
 
-var getSearchPathParameters = function getSearchPathParameters(
+var getSearchPathParameters = function getSearchPathParameters (
   searchParamsPath
 ) {
-  var decode =
-    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var decode
+    = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
   var searchParamsObject = {};
 
   if (searchParamsPath) {
     var pairs = (
-      searchParamsPath[0] === "?"
+      searchParamsPath[0] === '?'
         ? searchParamsPath.substr(1)
         : searchParamsPath
-    ).split("&");
+    ).split('&');
 
     for (var i = 0; i < pairs.length; i++) {
-      var pair = pairs[i].split("=");
+      var pair = pairs[i].split('=');
       var key = pair[0];
-      var value = pair[1] || "";
+      var value = pair[1] || '';
       key = decode ? decodeURIComponent(key) : key;
       value = decode ? decodeURIComponent(value) : value;
 
@@ -138,12 +133,12 @@ var getSearchPathParameters = function getSearchPathParameters(
   return searchParamsObject;
 };
 
-var SimplexRouter = /*#__PURE__*/ (function () {
-  function SimplexRouter(routeTemplates, compileOptions) {
+var SimplexRouter = /* #__PURE__*/ (function () {
+  function SimplexRouter (routeTemplates, compileOptions) {
     _classCallCheck(this, SimplexRouter);
 
     if (!routeTemplates) {
-      throw new Error("no 'route' or [routes]");
+      throw new Error('no \'route\' or [routes]');
     }
 
     var options = _objectSpread(
@@ -164,12 +159,12 @@ var SimplexRouter = /*#__PURE__*/ (function () {
       var template = templates[templateIndex];
       var templatePath = options.templateKey
         ? options.templateKey(template)
-        : typeof template === "string"
-        ? template
-        : null;
+        : typeof template === 'string'
+          ? template
+          : null;
 
       if (!templatePath) {
-        throw new Error("No Template Path");
+        throw new Error('No Template Path');
       }
 
       var templateParameters = [];
@@ -192,7 +187,7 @@ var SimplexRouter = /*#__PURE__*/ (function () {
             first: compilerMatch.index,
             last: compilerMatch.index + compilerMatch[0].length,
             key: compilerMatch[1],
-            compileRegex: compiler,
+            compileRegex: compiler
           });
         }
       }
@@ -200,12 +195,12 @@ var SimplexRouter = /*#__PURE__*/ (function () {
       templateParameters.sort(function (a, b) {
         return a.first - b.first;
       });
-      var newRouteTemplate = ""; // parameters replaced with regular options
+      var newRouteTemplate = ''; // parameters replaced with regular options
 
       var indexOfLastParameterized = 0;
-      var lastUnParameterizedChunk = "";
+      var lastUnParameterizedChunk = '';
 
-      var _loop = function _loop(_templateCharacterIndex) {
+      var _loop = function _loop (_templateCharacterIndex) {
         var templateParameterStart = templateParameters.find(function (i) {
           return i.first === _templateCharacterIndex;
         });
@@ -218,16 +213,16 @@ var SimplexRouter = /*#__PURE__*/ (function () {
             indexOfLastParameterized,
             templateParameterStart.first
           );
-          var previousChunkSplit = previousChunk.split("?"); // break if there is a question mark meaning beginning of query string
+          var previousChunkSplit = previousChunk.split('?'); // break if there is a question mark meaning beginning of query string
           // it happens to be very unlikely this will ever catch a query string that is not
           // in a parameter because it will be caught in the 'else' statement below.
           // so, this just takes unnecessary memory and computation time that could be saved,BUR TESTING NEEDS TO BE DONE.
 
           if (previousChunkSplit.length > 1) {
-            lastUnParameterizedChunk = previousChunkSplit[0]; //add the section before the question mark
+            lastUnParameterizedChunk = previousChunkSplit[0]; // add the section before the question mark
 
             templateCharacterIndex = _templateCharacterIndex;
-            return "break";
+            return 'break';
           }
 
           newRouteTemplate += quoteRegExp(previousChunk); // add previous chunk
@@ -235,19 +230,18 @@ var SimplexRouter = /*#__PURE__*/ (function () {
           newRouteTemplate += templateParameterStart.compileRegex.use; // add current parameter regex
 
           indexOfLastParameterized = templateParameterStart.last;
-          _templateCharacterIndex = templateParameterStart.last - 1; //we subtract one since we want the nest round of this loop to be the last index
+          _templateCharacterIndex = templateParameterStart.last - 1; // we subtract one since we want the nest round of this loop to be the last index
 
-          lastUnParameterizedChunk = ""; //last chunk is cleared because because parameter has been encountered
+          lastUnParameterizedChunk = ''; // last chunk is cleared because because parameter has been encountered
         } else {
           var templateCharacter = templatePath[_templateCharacterIndex];
 
-          if (templateCharacter === "?") {
+          if (templateCharacter === '?') {
             templateCharacterIndex = _templateCharacterIndex;
             // if character is question mark, its a start of query string
-            return "break";
-          } else {
-            lastUnParameterizedChunk += templateCharacter;
+            return 'break';
           }
+          lastUnParameterizedChunk += templateCharacter;
         }
 
         templateCharacterIndex = _templateCharacterIndex;
@@ -260,35 +254,35 @@ var SimplexRouter = /*#__PURE__*/ (function () {
       ) {
         var _ret = _loop(templateCharacterIndex);
 
-        if (_ret === "break") break;
-      } //if the last parameterized index is smaller than route length,
-      //then there are some characters are not in the parameters
-      //and need to be taken care of so they dont spoil the regex as
+        if (_ret === 'break') { break }
+      } // if the last parameterized index is smaller than route length,
+      // then there are some characters are not in the parameters
+      // and need to be taken care of so they dont spoil the regex as
       // some of them could have special meaning. eg '?'
-      //check this one as it assumes these characters are always the last ones.
+      // check this one as it assumes these characters are always the last ones.
 
       if (indexOfLastParameterized < templatePath.length) {
         newRouteTemplate += quoteRegExp(lastUnParameterizedChunk);
       }
 
       compiledRouteTemplates.push({
-        compiledTemplate: new RegExp("^" + newRouteTemplate + "$"),
+        compiledTemplate: new RegExp('^' + newRouteTemplate + '$'),
         template: template,
         templateParameterNames: templateParameters.map(function (i) {
           return i.key;
-        }),
+        })
       });
     }
   }
 
   _createClass(SimplexRouter, [
     {
-      key: "match",
-      value: function match(pathToMatchTemplates, options) {
+      key: 'match',
+      value: function match (pathToMatchTemplates, options) {
         options = Object.assign(
           {
             onlyFirstTemplate: false,
-            decode: true,
+            decode: true
           },
           options || {}
         );
@@ -302,7 +296,7 @@ var SimplexRouter = /*#__PURE__*/ (function () {
         }
 
         var templateMatchResponses = [];
-        var splitPathFromSearchParams = pathToMatchTemplates.split("?");
+        var splitPathFromSearchParams = pathToMatchTemplates.split('?');
         var pathWithoutSearchParams = splitPathFromSearchParams[0];
         var searchParams = getSearchPathParameters(
           splitPathFromSearchParams[1],
@@ -317,7 +311,7 @@ var SimplexRouter = /*#__PURE__*/ (function () {
           var compiledRoute = this.compiledRouteTemplates[compiledRouteIndex];
           var pathForMatchVariants = [pathWithoutSearchParams]; // below conditions could probably be done by regex.
 
-          if (pathWithoutSearchParams.endsWith("/")) {
+          if (pathWithoutSearchParams.endsWith('/')) {
             pathForMatchVariants.push(
               pathWithoutSearchParams.substring(
                 0,
@@ -326,7 +320,7 @@ var SimplexRouter = /*#__PURE__*/ (function () {
             );
           }
 
-          if (pathWithoutSearchParams.startsWith("/")) {
+          if (pathWithoutSearchParams.startsWith('/')) {
             pathForMatchVariants.push(
               pathWithoutSearchParams.substring(
                 1,
@@ -335,12 +329,12 @@ var SimplexRouter = /*#__PURE__*/ (function () {
             );
           }
 
-          if (!pathWithoutSearchParams.endsWith("/")) {
-            pathForMatchVariants.push(pathWithoutSearchParams + "/");
+          if (!pathWithoutSearchParams.endsWith('/')) {
+            pathForMatchVariants.push(pathWithoutSearchParams + '/');
           }
 
-          if (!pathWithoutSearchParams.startsWith("/")) {
-            pathForMatchVariants.push("/" + pathWithoutSearchParams);
+          if (!pathWithoutSearchParams.startsWith('/')) {
+            pathForMatchVariants.push('/' + pathWithoutSearchParams);
           }
 
           for (
@@ -348,27 +342,25 @@ var SimplexRouter = /*#__PURE__*/ (function () {
             pathForMatchVariantsIndex < pathForMatchVariants.length;
             pathForMatchVariantsIndex++
           ) {
-            var pathForMatchVariant =
-              pathForMatchVariants[pathForMatchVariantsIndex];
-            var pathForMatchVariantMatch =
-              compiledRoute.compiledTemplate.exec(pathForMatchVariant);
+            var pathForMatchVariant
+              = pathForMatchVariants[pathForMatchVariantsIndex];
+            var pathForMatchVariantMatch
+              = compiledRoute.compiledTemplate.exec(pathForMatchVariant);
 
             if (pathForMatchVariantMatch) {
-              var templateMatchResponse = {
-                params: {},
-              };
+              var templateMatchResponse = { params: {} };
               var params = {};
 
               for (
                 var compiledRouteParamIndex = 0;
-                compiledRouteParamIndex <
-                compiledRoute.templateParameterNames.length;
+                compiledRouteParamIndex
+                < compiledRoute.templateParameterNames.length;
                 compiledRouteParamIndex++
               ) {
-                var key =
-                  compiledRoute.templateParameterNames[compiledRouteParamIndex];
-                var value =
-                  pathForMatchVariantMatch[compiledRouteParamIndex + 1] || "";
+                var key
+                  = compiledRoute.templateParameterNames[compiledRouteParamIndex];
+                var value
+                  = pathForMatchVariantMatch[compiledRouteParamIndex + 1] || '';
                 key = options.decode ? decodeURIComponent(key) : key;
                 value = options.decode ? decodeURIComponent(value) : value;
                 templateMatchResponse.params[key] = value;
@@ -379,15 +371,13 @@ var SimplexRouter = /*#__PURE__*/ (function () {
                 searchParams
               );
 
-              if (typeof compiledRoute.template === "string") {
+              if (typeof compiledRoute.template === 'string') {
                 templateMatchResponse.template = compiledRoute.template;
                 templateMatchResponse.params = params;
               } else {
                 templateMatchResponse = _objectSpread(
                   _objectSpread({}, compiledRoute.template),
-                  {
-                    params: params,
-                  }
+                  { params: params }
                 );
               }
 
@@ -405,19 +395,19 @@ var SimplexRouter = /*#__PURE__*/ (function () {
         }
 
         return templateMatchResponses;
-      },
+      }
     },
     {
-      key: "ROUTER",
-      value: function ROUTER(routesToCompile, routesCompileOptions) {
+      key: 'ROUTER',
+      value: function ROUTER (routesToCompile, routesCompileOptions) {
         return new SimplexRouter(routesToCompile, routesCompileOptions);
-      },
-    },
+      }
+    }
   ]);
 
   return SimplexRouter;
 })();
 
-function _default(routesToCompile, routesCompileOptions) {
+function _default (routesToCompile, routesCompileOptions) {
   return new SimplexRouter(routesToCompile, routesCompileOptions);
 }

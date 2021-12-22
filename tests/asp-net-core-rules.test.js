@@ -1,8 +1,8 @@
-const { default: aspNetCoreRules } = require("../src/rules/asp-net-core.ts");
+const { default: aspNetCoreRules } = require('../src/rules/asp-net-core.ts');
 
 const match = (rule, index) => {
   if (!rule.test) {
-    throw new Error("All rules must have a test string");
+    throw new Error('All rules must have a test string');
   }
 
   const test = rule.match.test(rule.test);
@@ -43,6 +43,6 @@ const match = (rule, index) => {
   expect(test).toBe(true);
 };
 
-test("test asp.net-core rules", () => {
+test('test asp.net-core rules', () => {
   aspNetCoreRules.forEach(match);
 });
