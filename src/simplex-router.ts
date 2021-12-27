@@ -64,19 +64,15 @@ const getSearchPathParameters = (
 export interface ISimplexRouter {
   match(
     pathToMatchRoutes: string,
-    options: { onlyFirstTemplate: boolean; decode: boolean }
+    options: { onlyFirstTemplate?: boolean; decode?: boolean }
   ): TemplateMatchResponseType[] | TemplateMatchResponseType;
-  ROUTER(
-    routesToCompile: string[] | string,
-    routesCompileOptions?: CompileOptionsType
-  ): ISimplexRouter;
 }
 
 class SimplexRouter implements ISimplexRouter {
   routeTemplates: any[];
   compiledRouteTemplates: CompiledRouteType[];
   constructor(
-    routeTemplates: any[] | any,
+    routeTemplates: any[] | string | {},
     compileOptions?: CompileOptionsType
   ) {
     if (!routeTemplates) {
@@ -319,12 +315,6 @@ class SimplexRouter implements ISimplexRouter {
     }
 
     return templateMatchResponses;
-  }
-  ROUTER(
-    routesToCompile: string[] | string,
-    routesCompileOptions?: CompileOptionsType
-  ): ISimplexRouter {
-    return new SimplexRouter(routesToCompile, routesCompileOptions);
   }
 }
 

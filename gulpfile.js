@@ -14,6 +14,8 @@ gulp.task('es5', function () {
 
 gulp.task('es6', function () {
   const tsProject = ts.createProject('tsconfig.json');
+
+
   return tsProject.src().pipe(tsProject()).js.pipe(gulp.dest('./dist/es6/'));
 });
 

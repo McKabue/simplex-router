@@ -2,7 +2,6 @@
   "version": "0.0.2",
   "name": "simplex-router",
   "devDependencies": {
-    "@babel/core": "7.15.0",
     "@babel/preset-env": "7.15.0",
     "@babel/preset-typescript": "7.15.0",
     "del": "6.0.0",

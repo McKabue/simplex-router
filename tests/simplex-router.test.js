@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const uuid = require('uuid').v4;
 const { default: simplexRouter } = require('../src/simplex-router.ts');
 
