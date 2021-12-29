@@ -6,7 +6,7 @@ export type TemplateParameterType = { [key: string]: string };
  * members of that object.
  */
 export type TemplateMatchResponseType =
-  | {
+  {
       params: TemplateParameterType;
       /**
        * This is for routes that are passed as strings.
@@ -16,13 +16,13 @@ export type TemplateMatchResponseType =
   /**
    * @type TemplateMatchResponseType can be null
    */
-  | any;
+  | null;
 
 export type CompiledRouteType = {
   /**
    * Template could be string or object
    */
-  template: {} | string;
+  template: Record<string, unknown> | string;
   compiledTemplate: RegExp;
   templateParameterNames: string[];
 };
@@ -39,5 +39,5 @@ export type RuleType = {
 
 export type CompileOptionsType = {
   rules?: RuleType[];
-  templateKey?: (item: any) => string;
+  templateKey?: (item: Record<string, unknown> | string) => string | null;
 };

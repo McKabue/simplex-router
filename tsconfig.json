@@ -8,6 +8,6 @@
     "esModuleInterop": true,
     "moduleResolution": "node"
   },
-  "files": ["./src/simplex-router.ts"],
+  "files": ["./src/simplex-router.ts", "src/router.ts"],
   "include": ["./src/rules/**/*"]
 }
