@@ -1,11 +1,10 @@
+import aspNetCoreCompilers from './rules/asp-net-core';
 import {
   CompileOptionsType,
-  TemplateParameterType,
-  TemplateMatchResponseType
+  TemplateMatchResponseType,
+  TemplateParameterType
 } from './types';
 
-import aspNetCoreCompilers from './rules/asp-net-core';
-import { SimplexRouter } from './router';
 
 /**
  * Quotes regular expression in a string.
@@ -70,10 +69,3 @@ export interface ISimplexRouter {
     options: { onlyFirstTemplate?: boolean; decode?: boolean }
   ): TemplateMatchResponseType[] | TemplateMatchResponseType;
 }
-
-export default (
-  routesToCompile: Record<string, unknown>[] | string[] | string,
-  routesCompileOptions?: CompileOptionsType
-): ISimplexRouter => {
-  return new SimplexRouter(routesToCompile, routesCompileOptions);
-};

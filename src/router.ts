@@ -8,7 +8,7 @@ import {
 import {
   ISimplexRouter, defaultCompileOptions,
   quoteRegExp, getSearchPathParameters
-} from './simplex-router';
+} from './utils';
 
 export class SimplexRouter implements ISimplexRouter {
   routeTemplates: Record<string, unknown>[] | string[] | string[];

@@ -14,7 +14,7 @@
     "uuid": "8.3.2"
   },
   "description": "This is a simple platform and framework agonistic javascript router. It only parses the routes and you decide how you want to deal with the matched route",
-  "main": "src/simplex-router.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "jest --config jest.config.js",
     "build": "gulp"
