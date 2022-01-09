@@ -66,6 +66,6 @@ export const getSearchPathParameters = (
 export interface ISimplexRouter {
   match(
     pathToMatchRoutes: string,
-    options: { onlyFirstTemplate?: boolean; decode?: boolean }
+    options?: { onlyFirstTemplate?: boolean; decode?: boolean }
   ): TemplateMatchResponseType[] | TemplateMatchResponseType;
 }
