@@ -262,11 +262,4 @@ export class SimplexRouter implements ISimplexRouter {
 
     return templateMatchResponses;
   }
-
-  ROUTER (
-    routeTemplates: Record<string, unknown>[] | string[] | string,
-    compileOptions?: CompileOptionsType
-  ) {
-    return new SimplexRouter(routeTemplates, compileOptions);
-  }
 }
