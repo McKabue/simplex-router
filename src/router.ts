@@ -262,4 +262,18 @@ export class SimplexRouter implements ISimplexRouter {
 
     return templateMatchResponses;
   }
+
+  /**
+   * @deprecated This is no longer used in future versions
+   * 
+   * @param routeTemplates 
+   * @param compileOptions 
+   * @returns 
+   */
+  ROUTER (
+    routeTemplates: Record<string, unknown>[] | string[] | string,
+    compileOptions?: CompileOptionsType
+  ) {
+    return new SimplexRouter(routeTemplates, compileOptions);
+  }
 }
