@@ -265,10 +265,13 @@ export class SimplexRouter implements ISimplexRouter {
 
   /**
    * @deprecated This is no longer used in future versions
-   * 
-   * @param routeTemplates 
-   * @param compileOptions 
-   * @returns 
+   *
+   * This was added to add backward compatibility
+   *
+   * @param {Record<string, unknown>[] | string[] | string} routeTemplates -
+   *  routeTemplates
+   * @param {CompileOptionsType} compileOptions - compileOptions
+   * @returns {SimplexRouter} - SimplexRouter
    */
   ROUTER (
     routeTemplates: Record<string, unknown>[] | string[] | string,
