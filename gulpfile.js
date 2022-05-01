@@ -5,7 +5,7 @@ const babel = require('gulp-babel');
 
 gulp.task('es5', function () {
   return gulp
-    .src(['src/simplex-router.ts', 'src/*rules/asp-net-core.ts'])
+    .src(['src/index.ts', 'src/*rules/asp-net-core.ts'])
     .pipe(
       babel({ presets: ['@babel/preset-env', '@babel/preset-typescript'] })
     )
