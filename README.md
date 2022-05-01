@@ -6,4 +6,4 @@ This router is used in [Oark Library](https://oarklibrary.com/) and is available
 
 [NPM](https://www.npmjs.com/package/simplex-router)
 
-To test: `npm run test`
+To test: `npm run test` (or install [Jest Runner](https://marketplace.visualstudio.com/items?itemName=firsttris.vscode-jest-runner))
